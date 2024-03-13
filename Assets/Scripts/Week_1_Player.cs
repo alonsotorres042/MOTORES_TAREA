@@ -5,12 +5,22 @@ using UnityEngine.InputSystem;
 
 public class Week_1_Player : MonoBehaviour
 {
-    private Vector3 Speed = Vector3.zero;
-    public int Velocity = 1;
+    private SpriteRenderer _spriteRenderer;
+
+    private Vector3 Speed;
+    public int Velocity;
+
+    RaycastHit hit;
+    int RayDistance;
+    public LayerMask Layers;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        RayDistance = 200;
+        Speed = Vector3.zero;
+        Velocity = 1;
     }
 
     // Update is called once per frame
@@ -18,31 +28,36 @@ public class Week_1_Player : MonoBehaviour
     {
         transform.position = transform.position + Speed * Velocity;
     }
-    /*void Movement()
+    void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.A))
+        if (Physics.Raycast(transform.position, Speed, out hit, RayDistance, Layers))
         {
-            Speed.x = -1;
-        }else if (Input.GetKey(KeyCode.D))
-        {
-            Speed.x = 1;
-        }else if (Input.GetKey(KeyCode.W))
-        {
-            Speed.y = 1;
-        }else if(Input.GetKey(KeyCode.S))
-        {
-            Speed.y = -1;
+            Debug.DrawRay(transform.position, Speed * RayDistance, Color.yellow);
+            if (hit.transform.tag == "Shape")
+            {
+                Debug.Log(hit.transform.gameObject.name + ", " + hit.transform.position + ", " + hit.transform.tag + ", Sprite");
+            }else if (hit.transform.tag == "Color")
+            {
+                Debug.Log(hit.transform.gameObject.name + ", " + hit.transform.position + ", " + hit.transform.tag + ", Color");
+            }
         }
         else
         {
-            Speed = Vector2.zero;
+            Debug.DrawRay(transform.position, Speed * RayDistance, Color.white);
         }
-        transform.position = (Speed * Velocity) + transform.position;
-    }*/
-
+    }
     public void Movement(InputAction.CallbackContext context)
     {
         Speed = context.ReadValue<Vector3>();
-        Debug.Log(Speed);
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.transform.tag == "Shape")
+        {
+            _spriteRenderer.sprite = collision.transform.GetComponent<SpriteRenderer>().sprite;
+        }else if(collision.transform.tag == "Color")
+        {
+            _spriteRenderer.color = collision.transform.GetComponent<SpriteRenderer>().color;
+        }
     }
 }

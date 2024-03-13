@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Shape
+  - Color
   layers:
   - Default
   - TransparentFX
@@ -11,8 +13,8 @@ TagManager:
   - Foreground
   - Water
   - UI
-  - 
-  - 
+  - Background
+  - Game
   - 
   - 
   - 
@@ -40,4 +42,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2485067613
     locked: 0
