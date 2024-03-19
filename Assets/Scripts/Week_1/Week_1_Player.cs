@@ -8,7 +8,7 @@ public class Week_1_Player : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     private Vector3 Speed;
-    public int Velocity;
+    public float Velocity;
 
     RaycastHit hit;
     int RayDistance;
