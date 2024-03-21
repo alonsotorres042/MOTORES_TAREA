@@ -21,35 +21,39 @@ public class Week_2_Player : MonoBehaviour
     float RaycastLenght;
     public LayerMask Layers;
 
+    //CHAGGE COLOR MECHANIC
+    MeshRenderer MyMR;
+    public ColorData ColorData;
+
+    //GENERAL DATA
+    float life;
+
     // Start is called before the first frame update
     void Start()
     {
         Velocity = 0.2f;
         MyRB = GetComponent<Rigidbody>();
+        MyMR = GetComponent<MeshRenderer>();
 
         RaycastLenght = 0.5f;
         Extrajumps = 2;
+
+        life = 10;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
     void FixedUpdate()
     {
         transform.position = transform.position + Speed * Velocity;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, RaycastLenght, Layers))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.red);
-            Debug.Log("Did Hit");
             IsJumping = false;
             Extrajumps = 2;
         }
         else
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * RaycastLenght, Color.white);
-            Debug.Log("Did not Hit");
             IsJumping = true;
         }
     }
@@ -69,5 +73,17 @@ public class Week_2_Player : MonoBehaviour
         {
             MyRB.AddForce(JumpDirection * Thurst);
         }
+    }
+    public void ChageToRed()
+    {
+        MyMR.material = ColorData.Red;
+    }
+    public void ChageToBlue()
+    {
+        MyMR.material = ColorData.Blue;
+    }
+    public void ChageToGreen()
+    {
+        MyMR.material = ColorData.Green;
     }
 }
