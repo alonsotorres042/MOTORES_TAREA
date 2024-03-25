@@ -27,7 +27,9 @@ public class Week_2_Player : MonoBehaviour
     public string CurrentColor;
 
     //GENERAL DATA
-    float life;
+    int Level;
+    float MaxLife;
+    public float CurrentLife;
 
     // Start is called before the first frame update
     void Start()
@@ -39,10 +41,19 @@ public class Week_2_Player : MonoBehaviour
         RaycastLenght = 0.5f;
         Extrajumps = 2;
 
-        life = 10;
+        MaxLife = 10;
+        CurrentLife = MaxLife;
+        Level = 1;
     }
 
     // Update is called once per frame
+    void Update()
+    {
+        if(CurrentLife <= 0)
+        {
+            DEATH();
+        }
+    }
     void FixedUpdate()
     {
         transform.position = transform.position + Speed * Velocity;
@@ -75,6 +86,10 @@ public class Week_2_Player : MonoBehaviour
                 collision.gameObject.layer = 8;
             }
         }
+        if(collision.gameObject.tag == "Enemy")
+        {
+            CurrentLife--;
+        }
     }   
     public void Movement(InputAction.CallbackContext context)
     {
@@ -86,7 +101,7 @@ public class Week_2_Player : MonoBehaviour
         if (context.performed && IsJumping == true && Extrajumps > 0)
         {
             MyRB.AddForce(JumpDirection * Thurst);
-            RaycastLenght = 1;
+            RaycastLenght = 0.5f;
             Extrajumps--;
         }
         else if(context.performed && IsJumping == false && Extrajumps > 0)
@@ -108,5 +123,10 @@ public class Week_2_Player : MonoBehaviour
     {
         MyMR.material = ColorData.Green;
         CurrentColor = "Green";
+    }
+    public void DEATH()
+    {
+        transform.position = new Vector2(-8.25f, -2.4f);
+        CurrentLife = 10;
     }
 }
