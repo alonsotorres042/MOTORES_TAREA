@@ -24,6 +24,7 @@ public class Week_2_Player : MonoBehaviour
     //CHAGGE COLOR MECHANIC
     MeshRenderer MyMR;
     public ColorData ColorData;
+    public string CurrentColor;
 
     //GENERAL DATA
     float life;
@@ -31,7 +32,7 @@ public class Week_2_Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Velocity = 0.2f;
+        Velocity = 0.1f;
         MyRB = GetComponent<Rigidbody>();
         MyMR = GetComponent<MeshRenderer>();
 
@@ -49,7 +50,15 @@ public class Week_2_Player : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.red);
             IsJumping = false;
-            Extrajumps = 2;
+            RaycastLenght = 0.5f;
+            if(hit.transform.gameObject.tag == "Platform" && hit.transform.gameObject.GetComponent<PlatformControl>().ThisColor == CurrentColor)
+            {
+                hit.transform.gameObject.layer = 8;
+            }
+            if (hit.transform.gameObject.layer != 8)
+            {
+                Extrajumps = 2;
+            }
         }
         else
         {
@@ -57,6 +66,16 @@ public class Week_2_Player : MonoBehaviour
             IsJumping = true;
         }
     }
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Platform")
+        {
+            if (collision.gameObject.GetComponent<PlatformControl>().ThisColor == CurrentColor)
+            {
+                collision.gameObject.layer = 8;
+            }
+        }
+    }   
     public void Movement(InputAction.CallbackContext context)
     {
         Speed = context.ReadValue<Vector2>();
@@ -67,6 +86,7 @@ public class Week_2_Player : MonoBehaviour
         if (context.performed && IsJumping == true && Extrajumps > 0)
         {
             MyRB.AddForce(JumpDirection * Thurst);
+            RaycastLenght = 1;
             Extrajumps--;
         }
         else if(context.performed && IsJumping == false && Extrajumps > 0)
@@ -77,13 +97,16 @@ public class Week_2_Player : MonoBehaviour
     public void ChageToRed()
     {
         MyMR.material = ColorData.Red;
+        CurrentColor = "Red";
     }
     public void ChageToBlue()
     {
         MyMR.material = ColorData.Blue;
+        CurrentColor = "Blue";
     }
     public void ChageToGreen()
     {
         MyMR.material = ColorData.Green;
+        CurrentColor = "Green";
     }
 }
