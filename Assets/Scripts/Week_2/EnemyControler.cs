@@ -8,6 +8,7 @@ public class EnemyControler : MonoBehaviour
     public float Speed;
     private Vector3 Velocity;
     public float TimeToMove;
+    public string ThisColor;
     // Start is called before the first frame update
     void Start()
     {

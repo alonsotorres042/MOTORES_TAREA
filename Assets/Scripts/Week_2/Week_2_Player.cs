@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEditor.UI;
 
 public class Week_2_Player : MonoBehaviour
 {
@@ -25,11 +26,16 @@ public class Week_2_Player : MonoBehaviour
     MeshRenderer MyMR;
     public ColorData ColorData;
     public string CurrentColor;
+    public bool CanChangeColor;
 
     //GENERAL DATA
     int Level;
     float MaxLife;
     public float CurrentLife;
+
+    //TIMER
+    public Timer ThisTimer;
+    public UIManager MyUIManager;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +43,7 @@ public class Week_2_Player : MonoBehaviour
         Velocity = 0.1f;
         MyRB = GetComponent<Rigidbody>();
         MyMR = GetComponent<MeshRenderer>();
+        CanChangeColor = true;
 
         RaycastLenght = 0.5f;
         Extrajumps = 2;
@@ -86,11 +93,24 @@ public class Week_2_Player : MonoBehaviour
                 collision.gameObject.layer = 8;
             }
         }
-        if(collision.gameObject.tag == "Enemy")
+        if(collision.gameObject.tag == "Enemy" && collision.gameObject.GetComponent<EnemyControler>().ThisColor != CurrentColor)
         {
             CurrentLife--;
         }
-    }   
+        else if(collision.gameObject.tag == "Enemy" && collision.gameObject.GetComponent<EnemyControler>().ThisColor == CurrentColor)
+        {
+            CanChangeColor = false;
+        }
+        if(collision.gameObject.tag == "FinishItem")
+        {
+            VICTORY();
+            MyUIManager.VICTORY();
+        }
+    }
+    void OnCollisionExit(Collision collision)
+    {
+        CanChangeColor = true;
+    }
     public void Movement(InputAction.CallbackContext context)
     {
         Speed = context.ReadValue<Vector2>();
@@ -111,22 +131,35 @@ public class Week_2_Player : MonoBehaviour
     }
     public void ChageToRed()
     {
-        MyMR.material = ColorData.Red;
-        CurrentColor = "Red";
+        if(CanChangeColor)
+        {
+            MyMR.material = ColorData.Red;
+            CurrentColor = "Red";
+        }
     }
     public void ChageToBlue()
     {
-        MyMR.material = ColorData.Blue;
-        CurrentColor = "Blue";
+        if (CanChangeColor)
+        {
+            MyMR.material = ColorData.Blue;
+            CurrentColor = "Blue";
+        }
     }
     public void ChageToGreen()
     {
-        MyMR.material = ColorData.Green;
-        CurrentColor = "Green";
+        if (CanChangeColor)
+        {
+            MyMR.material = ColorData.Green;
+            CurrentColor = "Green";
+        }
     }
     public void DEATH()
     {
         transform.position = new Vector2(-8.25f, -2.4f);
         CurrentLife = 10;
+    }
+    public void VICTORY()
+    {
+        ThisTimer.DetenerTemporizador();
     }
 }
