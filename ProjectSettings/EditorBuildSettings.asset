@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Lab_1.unity
+    path: Assets/Scenes/Motores/Lab_1_Mot.unity
     guid: d42d05f475f79604eaa5b751e30d5567
   - enabled: 1
-    path: Assets/Scenes/Lab_2.unity
+    path: Assets/Scenes/Motores/Lab_2_Mot.unity
     guid: e6528830e102b9940a7f31a91095924e
   m_configObjects: {}

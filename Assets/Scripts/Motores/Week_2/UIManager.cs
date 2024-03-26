@@ -11,16 +11,6 @@ public class UIManager : MonoBehaviour
     public Week_2_Player Player;
     public Button Menu, Retry;
 
-    public event Action UIActive;
-
-    private void OnEnable()
-    {
-        UIActive += VICTORY;
-    }
-    private void OnDisable()
-    {
-        UIActive -= VICTORY;
-    }
     // Start is called before the first frame update
     void Start()
     {

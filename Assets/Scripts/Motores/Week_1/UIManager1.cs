@@ -13,7 +13,7 @@ public class UIManager1 : MonoBehaviour
     // Update is called once per frame
     public void Pause()
     {
-        if (this.gameObject.active == false)
+        if (this.gameObject.activeSelf == false)
         {
             this.gameObject.SetActive(true);
         }

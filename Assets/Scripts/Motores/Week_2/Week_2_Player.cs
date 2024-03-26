@@ -29,7 +29,6 @@ public class Week_2_Player : MonoBehaviour
     public bool CanChangeColor;
 
     //GENERAL DATA
-    int Level;
     float MaxLife;
     public float CurrentLife;
 
@@ -50,7 +49,6 @@ public class Week_2_Player : MonoBehaviour
 
         MaxLife = 10;
         CurrentLife = MaxLife;
-        Level = 1;
     }
 
     // Update is called once per frame
